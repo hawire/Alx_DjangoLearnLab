@@ -1,7 +1,4 @@
-**Purpose:** Show how you updated an existing `Book` record.
 
-### ✅ Example content:
-```markdown
 # Update Operation
 
 ## Command:

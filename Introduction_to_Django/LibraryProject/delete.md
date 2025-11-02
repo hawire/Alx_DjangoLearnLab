@@ -1,7 +1,4 @@
-**Purpose:** Show how you deleted the `Book` record and confirmed deletion.
 
-### ✅ Example content:
-```markdown
 # Delete Operation
 
 ## Command:

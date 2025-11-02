@@ -1,7 +1,4 @@
-**Purpose:** Show how you retrieved and displayed the `Book` you created.
 
-### ✅ Example content:
-```markdown
 # Retrieve Operation
 
 ## Command:

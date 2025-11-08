@@ -2,9 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView
 from .models import Book, Library
 
-# Function-based view to list all books
+# Function-based view to list all books using Book.objects.all()
 def list_books(request):
-    books = Book.objects.select_related('author').all()
+    books = Book.objects.all()
     return render(request, 'relationship_app/list_books.html', {'books': books})
 
 # Class-based view to show library details

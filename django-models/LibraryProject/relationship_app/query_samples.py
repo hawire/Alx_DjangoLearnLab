@@ -22,10 +22,10 @@ def books_in_library(library_name):
     except Library.DoesNotExist:
         return []
 
-# Retrieve the librarian for a library
+# Retrieve the librarian for a library using Librarian.objects.get(library=...)
 def librarian_for_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        return library.librarian
+        return Librarian.objects.get(library=library)
     except (Library.DoesNotExist, Librarian.DoesNotExist):
         return None

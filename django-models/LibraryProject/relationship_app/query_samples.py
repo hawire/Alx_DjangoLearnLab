@@ -1,31 +1,16 @@
-import os
-import django
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
-django.setup()
-
 from relationship_app.models import Author, Book, Library, Librarian
 
-# Query all books by a specific author using .filter()
+# Query all books by a specific author
 def books_by_author(author_name):
-    try:
-        author = Author.objects.get(name=author_name)
-        return list(Book.objects.filter(author=author))
-    except Author.DoesNotExist:
-        return []
+    author = Author.objects.get(name=author_name)
+    return Book.objects.filter(author=author)
 
 # List all books in a library
 def books_in_library(library_name):
-    try:
-        library = Library.objects.get(name=library_name)
-        return list(library.books.all())
-    except Library.DoesNotExist:
-        return []
+    library = Library.objects.get(name=library_name)
+    return library.books.all()
 
-# Retrieve the librarian for a library using Librarian.objects.get(library=...)
+# Retrieve the librarian for a library
 def librarian_for_library(library_name):
-    try:
-        library = Library.objects.get(name=library_name)
-        return Librarian.objects.get(library=library)
-    except (Library.DoesNotExist, Librarian.DoesNotExist):
-        return None
+    library = Library.objects.get(name=library_name)
+    return library.librarian

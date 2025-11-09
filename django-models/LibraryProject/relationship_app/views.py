@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
-from .models import Book, Library
+from .models import Book, Library, UserProfile   # include UserProfile for role checks
 
 # -------------------------
 # Function-based view: list all books
@@ -31,7 +32,6 @@ class LibraryDetailView(DetailView):
 # -------------------------
 # Authentication Views
 # -------------------------
-
 def login_view(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -59,3 +59,19 @@ def register_view(request):
     else:
         form = UserCreationForm()
     return render(request, "relationship_app/register.html", {"form": form})
+
+
+# -------------------------
+# Librarian-only view
+# -------------------------
+@login_required
+def librarian_dashboard(request):
+    try:
+        profile = request.user.profile
+    except UserProfile.DoesNotExist:
+        return HttpResponseForbidden("You do not have a profile.")
+
+    if profile.role == "Librarian":
+        return render(request, "relationship_app/librarian_dashboard.html")
+    else:
+        return HttpResponseForbidden("Access denied. Only Librarians can view this page.")

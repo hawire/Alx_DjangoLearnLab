@@ -7,10 +7,11 @@ def books_by_author(author_name):
 
 # List all books in a library
 def books_in_library(library_name):
-    library = Library.objects.get(name=library_name)   # <-- explicit get
-    return library.books.all()                         # <-- explicit .all()
+    library = Library.objects.get(name=library_name)
+    return library.books.all()
 
 # Retrieve the librarian for a library
 def librarian_for_library(library_name):
-    library = Library.objects.get(name=library_name)
-    return library.librarian
+    # Explicitly use Librarian.objects.get(library=...)
+    librarian = Librarian.objects.get(library=Library.objects.get(name=library_name))
+    return librarian

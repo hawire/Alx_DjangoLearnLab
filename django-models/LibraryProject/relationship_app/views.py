@@ -5,10 +5,10 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
 
-# Explicit import line required by checker
+# Explicit imports for checker
 from .models import Library
-# Other models
-from .models import Book, UserProfile
+from .models import Book
+from .models import UserProfile
 
 
 # -------------------------
@@ -43,7 +43,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("list_books")  # redirect after login
+            return redirect("list_books")
     else:
         form = AuthenticationForm()
     return render(request, "relationship_app/login.html", {"form": form})
@@ -51,32 +51,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, "relationship_app/logout.html")
-
-
-def register_view(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)  # auto-login after registration
-            return redirect("list_books")
-    else:
-        form = UserCreationForm()
-    return render(request, "relationship_app/register.html", {"form": form})
-
-
-# -------------------------
-# Librarian-only view
-# -------------------------
-@login_required
-def librarian_dashboard(request):
-    try:
-        profile = request.user.profile
-    except UserProfile.DoesNotExist:
-        return HttpResponseForbidden("You do not have a profile.")
-
-    if profile.role == "Librarian":
-        return render(request, "relationship_app/librarian_dashboard.html")
-    else:
-        return HttpResponseForbidden("Access denied. Only Librarians can view this page.")
+    return render(request, "relationship_app/logout.html
